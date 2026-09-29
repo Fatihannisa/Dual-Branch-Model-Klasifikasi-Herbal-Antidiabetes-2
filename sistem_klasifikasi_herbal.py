@@ -362,17 +362,6 @@ def get_leaf_mask(img):
 
   return mask
 
-def resize_input_image(img, size=(512, 512)):
-    """
-    Resize gambar input user menjadi 512x512 piksel
-    sebelum masuk ke tahap preprocessing.
-    """
-    return cv2.resize(
-        img,
-        size,
-        interpolation=cv2.INTER_AREA
-    )
-    
 def preprocess_camera_leaf(img):
     try:
         _, buffer = cv2.imencode(".png", img)
@@ -487,7 +476,6 @@ def to_vein_input(img: np.ndarray) -> np.ndarray:
 def predict(image):
     img = np.array(image.convert("RGB"))
     img_bgr = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-    img_bgr = resize_input_image(img_bgr, (512, 512))
     processed = preprocess_camera_leaf(img_bgr)
     rgb_input = np.expand_dims(
         to_rgb_input(processed), 0
